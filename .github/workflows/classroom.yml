@@ -1,4 +1,4 @@
-name: HTML Fan Page Autograding
+name: HTML Fan Page Grader
 
 on:
   push:
@@ -10,18 +10,21 @@ on:
 jobs:
   grade:
     runs-on: ubuntu-latest
-
+    name: Auto-Grader
+    
     steps:
-    - name: Checkout student code
-      uses: actions/checkout@v4
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '16'
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
 
-    - name: Install dependencies
-      run: npm install
+      - name: Install Tools
+        run: npm install cheerio
 
-    - name: Run Autograder
-      run: node .github/scripts/grade.js
+      - name: Run Grading Script
+        run: node .github/scripts/grade.js
+        env:
+          CI: true
